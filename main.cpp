@@ -20,6 +20,7 @@ public:
     double soil_humidity{};
     std::string timestamp;
     std::string prediction;
+    std::string note;  // Thêm trường dữ liệu cho thông báo
 };
 
 class DeviceData {
@@ -146,6 +147,8 @@ private:
         // Lấy giờ hiện tại từ thời gian của sensor_data
         int current_hour = getHourFromTimestamp(sensor_data.timestamp);
 
+        bool all_conditions_met = true; // Sử dụng để kiểm tra xem tất cả các điều kiện đã đáp ứng hay chưa
+
         for (const SensorData& training_sample : training_data) {
             // Lấy giờ từ thời gian của training_sample
             int training_hour = getHourFromTimestamp(training_sample.timestamp);
@@ -160,28 +163,37 @@ private:
 
             bool is_light_sufficient = (sensor_data.light_intensity >= min_light_intensity && sensor_data.light_intensity <= max_light_intensity);
 
-            if ((is_daytime && is_daytime_training(training_hour)) || (is_nighttime && is_nighttime_training(training_hour))) {
-                if (is_air_humid && is_soil_humid && is_light_sufficient) {
-                    double distance = calculateEuclideanDistance(sensor_data, training_sample);
+            bool conditions_met = ((is_daytime && is_daytime_training(training_hour)) || (is_nighttime && is_nighttime_training(training_hour))) &&
+                                  is_air_humid && is_soil_humid && is_light_sufficient;
 
-                    if (distance < min_distance) {
-                        min_distance = distance;
-                        prediction = "good";
-                    }
+            if (conditions_met) {
+                double distance = calculateEuclideanDistance(sensor_data, training_sample);
+
+                if (distance < min_distance) {
+                    min_distance = distance;
+                    prediction = "good";
                 }
+            } else {
+                all_conditions_met = false; // Đặt cờ khi ít nhất một điều kiện không đáp ứng
             }
+        }
+
+        if (prediction == "unknown" && !all_conditions_met) {
+            prediction = "bad"; // Đặt trạng thái "bad" khi ít nhất một điều kiện không đáp ứng và "unknown" hiện khi không đủ dữ liệu
         }
 
         return prediction;
     }
 
     static bool is_daytime_training(int training_hour) {
-        // Xác định giờ nào được coi là buổi sáng trong dữ liệu huấn luyện, ví dụ: từ 6h sáng đến 18h
+        // Xác định giờ nào được coi là buổi sáng trong dữ liệu huấn luyện
+
         return (training_hour >= 6 && training_hour < 18);
     }
 
     static bool is_nighttime_training(int training_hour) {
-        // Xác định giờ nào được coi là buổi tối trong dữ liệu huấn luyện, ví dụ: từ 18h đến 6h sáng hôm sau
+        // Xác định giờ nào được coi là buổi tối trong dữ liệu huấn luyện,
+
         return (training_hour >= 18 || training_hour < 6);
     }
 
@@ -201,39 +213,38 @@ private:
         return std::sqrt(distance);
     }
 
-    static void update_sensor_data_with_prediction(const std::string& device_id, const SensorData& sensor_data) {
+    static void update_sensor_data_with_prediction(const std::string& device_id, SensorData& sensor_data) {
         std::vector<SensorData> training_data = get_training_data();
 
         std::string prediction = predict_environment(sensor_data, training_data, 3);
 
-        std::string note = "";
-
         // Kiểm tra nhiệt độ
         if (sensor_data.temperature > 30.0) {
-            note += "High temperature; ";
+            sensor_data.note += "High temperature; ";
         } else if (sensor_data.temperature < 10.0) {
-            note += "Low temperature; ";
+            sensor_data.note += "Low temperature; ";
         }
 
         // Kiểm tra ánh sáng
         if (sensor_data.light_intensity < 1500.0 || sensor_data.light_intensity > 2000.0) {
-            note += "Unusual light intensity; ";
+            sensor_data.note += "Unusual light intensity; ";
         }
 
         // Kiểm tra độ ẩm không khí
         if (sensor_data.air_humidity < 60.0 || sensor_data.air_humidity > 80.0) {
-            note += "Air humidity out of range; ";
+            sensor_data.note += "Air humidity out of range; ";
         }
 
         // Kiểm tra độ ẩm đất
         if (sensor_data.soil_humidity < 60.0 || sensor_data.soil_humidity > 70.0) {
-            note += "Soil humidity out of range; ";
+            sensor_data.note += "Soil humidity out of range; ";
         }
 
         if (prediction == "good") {
-            note = ""; // Đặt lưu ý (note) thành rỗng nếu kết quả là "good"
+            sensor_data.note = "";
         }
 
+        // Cập nhật cơ sở dữ liệu
         sqlite3 *db;
         int rc = sqlite3_open("lora.db", &db);
         if (rc) {
@@ -261,7 +272,7 @@ private:
         sqlite3_bind_double(stmt, 5, sensor_data.soil_humidity);
         sqlite3_bind_text(stmt, 6, sensor_data.timestamp.c_str(), -1, SQLITE_STATIC);
         sqlite3_bind_text(stmt, 7, prediction.c_str(), -1, SQLITE_STATIC);
-        sqlite3_bind_text(stmt, 8, note.c_str(), -1, SQLITE_STATIC);
+        sqlite3_bind_text(stmt, 8, sensor_data.note.c_str(), -1, SQLITE_STATIC);
 
         rc = sqlite3_step(stmt);
         if (rc != SQLITE_DONE) {
