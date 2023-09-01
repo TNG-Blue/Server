@@ -7,6 +7,7 @@
 #include <mutex>
 #include <sqlite3.h>
 #include <cmath>
+#include <algorithm>
 
 using namespace boost::asio;
 using ip::tcp;
@@ -83,7 +84,7 @@ private:
         sqlite3_close(db);
     }
 
-    std::vector<SensorData> get_training_data() {
+    static std::vector<SensorData> get_training_data() {
         std::vector<SensorData> training_data;
 
         sqlite3 *db;
@@ -94,7 +95,7 @@ private:
             return training_data;
         }
 
-        std::string select_query = "SELECT temperature, prediction FROM sensor_data WHERE prediction IS NOT NULL;";
+        std::string select_query = "SELECT temperature FROM sensor_data WHERE prediction IS NOT NULL;";
 
         sqlite3_stmt *stmt;
         rc = sqlite3_prepare_v2(db, select_query.c_str(), -1, &stmt, nullptr);
@@ -111,7 +112,6 @@ private:
             data.light_intensity = 0.0;
             data.air_humidity = 0.0;
             data.soil_humidity = 0.0;
-            const char* prediction = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
 
             training_data.push_back(data);
         }
@@ -130,16 +130,66 @@ private:
         double min_distance = std::numeric_limits<double>::max();
         std::string prediction = "unknown";
 
-        for (const SensorData& training_sample : training_data) {
-            double distance = calculateEuclideanDistance(sensor_data, training_sample);
+        // Xác định các giới hạn cho nhiệt độ, độ ẩm không khí, độ ẩm đất và cường độ ánh sáng
+        const double min_temperature_day = 24.0;
+        const double max_temperature_day = 29.0;
+        const double min_temperature_night = 16.0;
+        const double max_temperature_night = 24.0;
+        const double min_air_humidity = 60.0;
+        const double max_air_humidity = 80.0;
+        const double min_soil_humidity = 60.0;
+        const double max_soil_humidity = 70.0;
+        const double min_light_intensity = 1500.0;
+        const double max_light_intensity = 2000.0;
 
-            if (distance < min_distance) {
-                min_distance = distance;
-                prediction = "good";
+        // Lấy giờ hiện tại từ thời gian của sensor_data
+        int current_hour = getHourFromTimestamp(sensor_data.timestamp);
+
+        for (const SensorData& training_sample : training_data) {
+            // Lấy giờ từ thời gian của training_sample
+            int training_hour = getHourFromTimestamp(training_sample.timestamp);
+
+            // Kiểm tra nếu là buổi sáng hoặc buổi tối
+            bool is_daytime = (current_hour >= 6 && current_hour < 18);
+            bool is_nighttime = !is_daytime;
+
+            bool is_air_humid = (sensor_data.air_humidity >= min_air_humidity && sensor_data.air_humidity <= max_air_humidity);
+
+            bool is_soil_humid = (sensor_data.soil_humidity >= min_soil_humidity && sensor_data.soil_humidity <= max_soil_humidity);
+
+            bool is_light_sufficient = (sensor_data.light_intensity >= min_light_intensity && sensor_data.light_intensity <= max_light_intensity);
+
+            if ((is_daytime && is_daytime_training(training_hour)) || (is_nighttime && is_nighttime_training(training_hour))) {
+                if (is_air_humid && is_soil_humid && is_light_sufficient) {
+                    double distance = calculateEuclideanDistance(sensor_data, training_sample);
+
+                    if (distance < min_distance) {
+                        min_distance = distance;
+                        prediction = "good";
+                    }
+                }
             }
         }
 
         return prediction;
+    }
+
+    static bool is_daytime_training(int training_hour) {
+        // Xác định giờ nào được coi là buổi sáng trong dữ liệu huấn luyện, ví dụ: từ 6h sáng đến 18h
+        return (training_hour >= 6 && training_hour < 18);
+    }
+
+    static bool is_nighttime_training(int training_hour) {
+        // Xác định giờ nào được coi là buổi tối trong dữ liệu huấn luyện, ví dụ: từ 18h đến 6h sáng hôm sau
+        return (training_hour >= 18 || training_hour < 6);
+    }
+
+    static int getHourFromTimestamp(const std::string& timestamp) {
+        // Phân tích thời gian từ timestamp và lấy giờ
+        std::tm tm_time = {};
+        std::istringstream ss(timestamp);
+        ss >> std::get_time(&tm_time, "%Y-%m-%d %H:%M:%S");
+        return tm_time.tm_hour;
     }
 
     static double calculateEuclideanDistance(const SensorData& data1, const SensorData& data2) {
@@ -150,16 +200,38 @@ private:
         return std::sqrt(distance);
     }
 
-    void update_sensor_data_with_prediction(const std::string& device_id, const SensorData& sensor_data) {
+    static void update_sensor_data_with_prediction(const std::string& device_id, const SensorData& sensor_data) {
         std::vector<SensorData> training_data = get_training_data();
 
+        // Sử dụng KNN để dự đoán
         std::string prediction = predict_environment(sensor_data, training_data, 3);
 
         std::string note = "";
+
+        // Kiểm tra nhiệt độ
         if (sensor_data.temperature > 30.0) {
             note += "High temperature; ";
         } else if (sensor_data.temperature < 10.0) {
             note += "Low temperature; ";
+        }
+
+        // Kiểm tra ánh sáng
+        if (sensor_data.light_intensity < 1500.0 || sensor_data.light_intensity > 2000.0) {
+            note += "Unusual light intensity; ";
+        }
+
+        // Kiểm tra độ ẩm không khí
+        if (sensor_data.air_humidity < 60.0 || sensor_data.air_humidity > 80.0) {
+            note += "Air humidity out of range; ";
+        }
+
+        // Kiểm tra độ ẩm đất
+        if (sensor_data.soil_humidity < 60.0 || sensor_data.soil_humidity > 70.0) {
+            note += "Soil humidity out of range; ";
+        }
+
+        if (prediction == "good") {
+            note = ""; // Đặt lưu ý (note) thành rỗng nếu kết quả là "good"
         }
 
         sqlite3 *db;
