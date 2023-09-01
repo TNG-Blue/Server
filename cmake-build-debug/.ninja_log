@@ -1,0 +1,17 @@
+# ninja log v5
+1	9174	7152617212714761	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+9182	10690	7152617227933447	Database_Server.exe	1c9fb6909ff58394
+26	7393	7152620731472657	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+7394	8600	7152620743614502	Database_Server.exe	1c9fb6909ff58394
+18	633	7152625760035894	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+634	746	7152625761126743	Database_Server.exe	1c9fb6909ff58394
+8	7639	7152630366116659	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+7639	8844	7152630378201403	Database_Server.exe	1c9fb6909ff58394
+20	5688	7152632092896024	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+5688	6983	7152632105899154	Database_Server.exe	1c9fb6909ff58394
+15	5768	7152636330587338	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+5768	6960	7152636342539969	Database_Server.exe	1c9fb6909ff58394
+20	6399	7152645875100176	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+6399	7614	7152645887267678	Database_Server.exe	1c9fb6909ff58394
+15	6280	7152648126170043	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+6281	7484	7152648138232951	Database_Server.exe	1c9fb6909ff58394

@@ -1,0 +1,15 @@
+{
+  "name" : "database-server",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "4a8d11802f0a9ffbe5c68f6143d61d469d800a7d",
+  "dependencies" : [ {
+    "name" : "boost-asio",
+    "version>=" : "1.82.0#3"
+  }, {
+    "name" : "boost",
+    "version>=" : "1.82.0#2"
+  }, {
+    "name" : "sqlite3",
+    "version>=" : "3.42.0#1"
+  } ]
+}
