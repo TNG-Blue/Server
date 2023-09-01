@@ -19,6 +19,7 @@ public:
     double air_humidity{};
     double soil_humidity{};
     std::string timestamp;
+    std::string prediction;
 };
 
 class DeviceData {
@@ -203,7 +204,6 @@ private:
     static void update_sensor_data_with_prediction(const std::string& device_id, const SensorData& sensor_data) {
         std::vector<SensorData> training_data = get_training_data();
 
-        // Sử dụng KNN để dự đoán
         std::string prediction = predict_environment(sensor_data, training_data, 3);
 
         std::string note = "";
