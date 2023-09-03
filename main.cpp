@@ -23,6 +23,16 @@ public:
     std::string note;  // Thêm trường dữ liệu cho thông báo
 };
 
+class UserControlData {
+public:
+    int id;
+    std::string device_id;
+    std::string command;
+    std::string timestamp_utc7;
+
+    UserControlData() : id(0) {}
+};
+
 class DeviceData {
 public:
     std::string device_id;
@@ -75,6 +85,14 @@ private:
                                          "note TEXT"
                                          ");";
 
+        // Thêm tạo bảng user_control
+        create_table_query += "CREATE TABLE IF NOT EXISTS user_control ("
+                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "device_id TEXT, "
+                              "command TEXT, "
+                              "timestamp TEXT"
+                              ");";
+
         char *errmsg;
         rc = sqlite3_exec(db, create_table_query.c_str(), nullptr, nullptr, &errmsg);
 
@@ -85,6 +103,7 @@ private:
 
         sqlite3_close(db);
     }
+
 
     static std::vector<SensorData> get_training_data() {
         std::vector<SensorData> training_data;
