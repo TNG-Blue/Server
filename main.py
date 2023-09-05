@@ -9,11 +9,13 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 local_storage = threading.local()
 
+
 def get_db_connection():
     """Get a thread-local SQLite connection."""
     if not hasattr(local_storage, 'conn'):
         local_storage.conn = sqlite3.connect('cmake-build-debug/lora.db')
     return local_storage.conn
+
 
 def get_db_cursor():
     """Get a thread-local SQLite cursor."""
@@ -21,6 +23,7 @@ def get_db_cursor():
     if not hasattr(local_storage, 'cursor'):
         local_storage.cursor = conn.cursor()
     return local_storage.cursor
+
 
 @app.route('/add_sensor_data', methods=['POST'])
 def add_sensor_data():
@@ -38,8 +41,9 @@ def add_sensor_data():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO sensor_data (device_id, light_intensity, temperature, air_humidity, soil_humidity, timestamp, prediction, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                       (device_id, light_intensity, temperature, air_humidity, soil_humidity, timestamp, prediction, note))
+        cursor.execute(
+            "INSERT INTO sensor_data (device_id, light_intensity, temperature, air_humidity, soil_humidity, timestamp, prediction, note) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (device_id, light_intensity, temperature, air_humidity, soil_humidity, timestamp, prediction, note))
         conn.commit()
 
         socketio.emit('sensor_update', data)
@@ -47,6 +51,7 @@ def add_sensor_data():
         return jsonify({'message': 'Sensor data added successfully!'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 
 @app.route('/update_sensor_data/<int:sensor_id>', methods=['PUT'])
 def update_sensor_data(sensor_id):
@@ -81,6 +86,7 @@ def update_sensor_data(sensor_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+
 @app.route('/get_sensor_data', methods=['GET'])
 def get_sensor_data():
     try:
@@ -109,6 +115,7 @@ def get_sensor_data():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/backup_database', methods=['POST'])
 def backup_database():
     try:
@@ -120,6 +127,7 @@ def backup_database():
         return jsonify({'message': 'Database backup created successfully!'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 # Route để thêm dữ liệu vào bảng user_control
 @app.route('/add_user_control', methods=['POST'])
@@ -140,6 +148,7 @@ def add_user_control():
         return jsonify({'message': 'User control data added successfully!'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 
 # Route để lấy dữ liệu từ bảng user_control
 @app.route('/get_user_control', methods=['GET'])
@@ -164,6 +173,7 @@ def get_user_control():
         return jsonify(user_control_list), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 # Route để cập nhật dữ liệu trong bảng user_control dựa trên ID
 @app.route('/update_user_control/<int:user_control_id>', methods=['PUT'])
