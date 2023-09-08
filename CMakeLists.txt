@@ -3,7 +3,9 @@ project(Database_Server)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(Database_Server main.cpp)
+add_executable(Database_Server
+        main.cpp
+)
 
 target_link_libraries(Database_Server PRIVATE ws2_32 mswsock)
 

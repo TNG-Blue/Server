@@ -4,6 +4,7 @@ import sqlite3
 import shutil
 import json
 import threading
+import os
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -13,7 +14,7 @@ local_storage = threading.local()
 def get_db_connection():
     """Get a thread-local SQLite connection."""
     if not hasattr(local_storage, 'conn'):
-        local_storage.conn = sqlite3.connect('cmake-build-debug/lora.db')
+        local_storage.conn = sqlite3.connect('F:/Source/C++/Database_Server/cmake-build-debug/lora.db')
     return local_storage.conn
 
 
@@ -119,7 +120,7 @@ def get_sensor_data():
 @app.route('/backup_database', methods=['POST'])
 def backup_database():
     try:
-        src_file = 'cmake-build-debug/lora.db'
+        src_file = 'F:/Source/C++/Database_Server/cmake-build-debug/lora.db'
         backup_file = 'backup/lora_backup.db'
 
         shutil.copy(src_file, backup_file)

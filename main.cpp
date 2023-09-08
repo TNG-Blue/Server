@@ -8,6 +8,7 @@
 #include <sqlite3.h>
 #include <cmath>
 #include <algorithm>
+#include <cstdlib>
 
 using namespace boost::asio;
 using ip::tcp;
@@ -20,7 +21,7 @@ public:
     double soil_humidity{};
     std::string timestamp;
     std::string prediction;
-    std::string note;  // Thêm trường dữ liệu cho thông báo
+    std::string note;
 };
 
 class UserControlData {
@@ -28,7 +29,7 @@ public:
     int id;
     std::string device_id;
     std::string command;
-    std::string timestamp_utc7;
+    std::string timestamp;
 
     UserControlData() : id(0) {}
 };
@@ -380,12 +381,32 @@ private:
     }
 };
 
+void runPythonScript(const char* scriptPath) {
+    std::string command = "python " + std::string(scriptPath);
+    int result = std::system(command.c_str());
+    if (result == 0) {
+        std::cout << "Successfully executed: " << scriptPath << std::endl;
+    } else {
+        std::cerr << "Error running: " << scriptPath << std::endl;
+    }
+}
+
 int main() {
-    std::string server_ip = "192.168.38.240";
+    std::string server_ip = "192.168.239.240";
     unsigned short server_port = 12345;
 
     LoRaServer server(server_ip, server_port);
-    server.start();
+    std::thread serverThread([&server]() { server.start(); });
+
+    const char* testScriptPath = "F:/Source/C++/Database_Server/test.py";
+    const char* mainScriptPath = "F:/Source/C++/Database_Server/main.py";
+
+    std::thread testThread(runPythonScript, testScriptPath);
+    std::thread mainThread(runPythonScript, mainScriptPath);
+
+    serverThread.join();
+    testThread.join();
+    mainThread.join();
 
     return 0;
 }

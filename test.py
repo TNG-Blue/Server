@@ -2,6 +2,7 @@ import socket
 import sqlite3
 from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QLabel
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
+import os
 
 esp32_ip = "192.168.38.82"  # Địa chỉ IP của ESP32
 esp32_port = 80  # Cổng của ESP32
@@ -16,6 +17,7 @@ def send_to_esp32(data):
     except Exception as e:
         print("Error:", str(e))
 
+
 class DatabaseWatcher(QThread):
     dataChanged = pyqtSignal(tuple)
 
@@ -25,9 +27,11 @@ class DatabaseWatcher(QThread):
 
     def run(self):
         try:
-            connection = sqlite3.connect("cmake-build-debug/lora.db")
+            connection = sqlite3.connect("F:/Source/C++/Database_Server/cmake-build-debug/lora.db")
             cursor = connection.cursor()
-            cursor.execute(f"SELECT device_id, command FROM user_control WHERE device_id = ? ORDER BY timestamp DESC LIMIT 1", (self.device_id,))
+            cursor.execute(
+                f"SELECT device_id, command FROM user_control WHERE device_id = ? ORDER BY timestamp DESC LIMIT 1",
+                (self.device_id,))
             row = cursor.fetchone()
             connection.close()
             if row:
@@ -35,10 +39,15 @@ class DatabaseWatcher(QThread):
         except Exception as e:
             print("Error:", str(e))
 
+
 class ESP32Control(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.command_label = None
+        self.label = None
+        self.layout = None
+        self.central_widget = None
         self.initUI()
 
         self.device_id = "pump"
@@ -74,7 +83,8 @@ class ESP32Control(QMainWindow):
         self.command_label.setText(f"Command: {command}")
         self.send_command_to_esp32(command)
 
-    def send_command_to_esp32(self, command):
+    @staticmethod
+    def send_command_to_esp32(command):
         if command == "on":
             send_to_esp32("ON")
         elif command == "off":
