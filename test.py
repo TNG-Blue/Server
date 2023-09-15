@@ -4,8 +4,10 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPu
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
 import os
 
-esp32_ip = "192.168.38.82"  # Địa chỉ IP của ESP32
+esp32_ip = "192.168.239.82"  # Địa chỉ IP của ESP32
 esp32_port = 80  # Cổng của ESP32
+
+device_id = None
 
 
 def send_to_esp32(data):
@@ -50,13 +52,15 @@ class ESP32Control(QMainWindow):
         self.central_widget = None
         self.initUI()
 
-        self.device_id = "pump"
-        self.db_watcher = DatabaseWatcher(self.device_id)
-        self.db_watcher.dataChanged.connect(self.handle_data_changed)
+        self.db_watchers = {}
+
+        self.init_device_watcher("pump")
+        self.init_device_watcher("fan")
+        self.init_device_watcher("motor")
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.check_for_data_changes)
-        self.timer.start(1000)  # Kiểm tra sự thay đổi trong cơ sở dữ liệu mỗi giây
+        self.timer.start(1000)
 
     def initUI(self):
         self.setWindowTitle("ESP32 LED Control")
@@ -66,8 +70,6 @@ class ESP32Control(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         self.layout = QVBoxLayout()
-
-        self.label = QLabel("Current command for 'pump':")
         self.layout.addWidget(self.label)
 
         self.command_label = QLabel("")
@@ -75,20 +77,36 @@ class ESP32Control(QMainWindow):
 
         self.central_widget.setLayout(self.layout)
 
+    def init_device_watcher(self, device_id):
+
+        db_watcher = DatabaseWatcher(device_id)
+        db_watcher.dataChanged.connect(self.handle_data_changed)
+        self.db_watchers[device_id] = db_watcher
+
     def check_for_data_changes(self):
-        self.db_watcher.start()
+        for device_id, db_watcher in self.db_watchers.items():
+            db_watcher.start()
 
     def handle_data_changed(self, data):
+        global device_id
         device_id, command = data
-        self.command_label.setText(f"Command: {command}")
+        self.command_label.setText(f"Command for {device_id}: {command}")
         self.send_command_to_esp32(command)
 
     @staticmethod
     def send_command_to_esp32(command):
-        if command == "on":
-            send_to_esp32("ON")
-        elif command == "off":
-            send_to_esp32("OFF")
+        if command == "on" and device_id == "pump":
+            send_to_esp32("PUMP_ON")
+        elif command == "off" and device_id == "pump":
+            send_to_esp32("PUMP_OFF")
+        elif command == "on" and device_id == "fan":
+            send_to_esp32("FAN_ON")
+        elif command == "off" and device_id == "fan":
+            send_to_esp32("FAN_OFF")
+        elif command == "on" and device_id == "motor":
+            send_to_esp32("MOTOR_ON")
+        elif command == "off" and device_id == "motor":
+            send_to_esp32("MOTOR_OFF")
 
 
 if __name__ == "__main__":
