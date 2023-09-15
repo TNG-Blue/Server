@@ -149,10 +149,11 @@ private:
             return "unknown";
         }
 
-        double min_distance = std::numeric_limits<double>::max();
-        std::string prediction = "unknown";
+        bool all_conditions_met = true;
+        bool is_temperature_valid = false;
+        bool is_soil_humid = false;
+        std::string prediction = "good";
 
-        // Xác định các giới hạn cho nhiệt độ, độ ẩm không khí, độ ẩm đất và cường độ ánh sáng
         const double min_temperature_day = 24.0;
         const double max_temperature_day = 29.0;
         const double min_temperature_night = 16.0;
@@ -164,27 +165,28 @@ private:
         const double min_light_intensity = 1500.0;
         const double max_light_intensity = 2000.0;
 
-        // Lấy giờ hiện tại từ thời gian của sensor_data
         int current_hour = getHourFromTimestamp(sensor_data.timestamp);
 
-        bool all_conditions_met = true; // Sử dụng để kiểm tra xem tất cả các điều kiện đã đáp ứng hay chưa
+        bool is_daytime = (current_hour >= 6 && current_hour < 18);
+
+        double min_distance = std::numeric_limits<double>::max();
 
         for (const SensorData& training_sample : training_data) {
-            // Lấy giờ từ thời gian của training_sample
+
             int training_hour = getHourFromTimestamp(training_sample.timestamp);
 
-            // Kiểm tra nếu là buổi sáng hoặc buổi tối
-            bool is_daytime = (current_hour >= 6 && current_hour < 18);
-            bool is_nighttime = !is_daytime;
-
             bool is_air_humid = (sensor_data.air_humidity >= min_air_humidity && sensor_data.air_humidity <= max_air_humidity);
-
-            bool is_soil_humid = (sensor_data.soil_humidity >= min_soil_humidity && sensor_data.soil_humidity <= max_soil_humidity);
-
             bool is_light_sufficient = (sensor_data.light_intensity >= min_light_intensity && sensor_data.light_intensity <= max_light_intensity);
 
-            bool conditions_met = ((is_daytime && is_daytime_training(training_hour)) || (is_nighttime && is_nighttime_training(training_hour))) &&
-                                  is_air_humid && is_soil_humid && is_light_sufficient;
+            if (is_daytime) {
+                is_temperature_valid = (sensor_data.temperature >= min_temperature_day && sensor_data.temperature <= max_temperature_day);
+            } else {
+                is_temperature_valid = (sensor_data.temperature >= min_temperature_night && sensor_data.temperature <= max_temperature_night);
+            }
+
+            is_soil_humid = (sensor_data.soil_humidity >= min_soil_humidity && sensor_data.soil_humidity <= max_soil_humidity);
+
+            bool conditions_met = is_temperature_valid && is_air_humid && is_soil_humid && is_light_sufficient;
 
             if (conditions_met) {
                 double distance = calculateEuclideanDistance(sensor_data, training_sample);
@@ -194,12 +196,12 @@ private:
                     prediction = "good";
                 }
             } else {
-                all_conditions_met = false; // Đặt cờ khi ít nhất một điều kiện không đáp ứng
+                all_conditions_met = false;
             }
         }
 
         if (prediction == "unknown" && !all_conditions_met) {
-            prediction = "bad"; // Đặt trạng thái "bad" khi ít nhất một điều kiện không đáp ứng và "unknown" hiện khi không đủ dữ liệu
+            prediction = "bad";
         }
 
         return prediction;
