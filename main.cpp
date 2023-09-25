@@ -9,6 +9,7 @@
 #include <cmath>
 #include <algorithm>
 #include <cstdlib>
+#include <iomanip>
 
 using namespace boost::asio;
 using ip::tcp;
@@ -394,7 +395,7 @@ void runPythonScript(const char* scriptPath) {
 }
 
 int main() {
-    std::string server_ip = "192.168.239.240";
+    std::string server_ip = "192.168.25.240";
     unsigned short server_port = 12345;
 
     LoRaServer server(server_ip, server_port);

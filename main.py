@@ -130,7 +130,6 @@ def backup_database():
         return jsonify({'error': str(e)}), 500
 
 
-# Route để thêm dữ liệu vào bảng user_control
 @app.route('/add_user_control', methods=['POST'])
 def add_user_control():
     try:
@@ -151,7 +150,6 @@ def add_user_control():
         return jsonify({'error': str(e)}), 400
 
 
-# Route để lấy dữ liệu từ bảng user_control
 @app.route('/get_user_control', methods=['GET'])
 def get_user_control():
     try:
@@ -176,7 +174,6 @@ def get_user_control():
         return jsonify({'error': str(e)}), 500
 
 
-# Route để cập nhật dữ liệu trong bảng user_control dựa trên ID
 @app.route('/update_user_control/<int:user_control_id>', methods=['PUT'])
 def update_user_control(user_control_id):
     try:

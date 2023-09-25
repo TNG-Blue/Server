@@ -1,2 +1,5 @@
 # ninja log v5
-2	6247	7165001259881361	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+18	7100	7169159324962173	CMakeFiles/Database_Server.dir/main.cpp.obj	10c5d0dbdc7e3868
+7100	8592	7169159339907101	Database_Server.exe	1c9fb6909ff58394
+34	1856	7172773225196751	build.ninja	38b6e9c45f9b05d6
+1	48	0	clean	13a0f7fe4e4601d5
