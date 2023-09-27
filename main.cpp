@@ -146,9 +146,9 @@ private:
     }
 
     static std::string predict_environment(const SensorData& sensor_data, const std::vector<SensorData>& training_data, int k) {
-        if (training_data.empty()) {
-            return "unknown";
-        }
+//        if (training_data.empty()) {
+//            return "unknown";
+//        }
 
         bool all_conditions_met = true;
         bool is_temperature_valid = false;
