@@ -21,32 +21,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ccdda262-44eb-40cd-a5cd-7564b709eb74" name="Changes" comment="Update">
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/QtSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/QtSettings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7c6cdf4a-342c-436a-9750-dfbe3a1141a9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7c6cdf4a-342c-436a-9750-dfbe3a1141a9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7c6cdf4a-342c-436a-9750-dfbe3a1141a9/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7c6cdf4a-342c-436a-9750-dfbe3a1141a9/storage_v2/_src_/schema/main.uQUzAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-e7f97affa26071621776.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-09-15T16-55-15-0038.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-09-24T16-48-42-0560.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdCXX/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdCXX/a.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Database_Server.dir/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Database_Server.dir/main.cpp.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Database_Server.dir/main.cpp.obj.d" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Database_Server.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Database_Server.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/lora.db" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/lora.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vcpkg.json" beforeDir="false" afterPath="$PROJECT_DIR$/vcpkg.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +63,9 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2VRNBvZqjDQRIxL5oISa4MVUexQ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -113,8 +100,13 @@
   <component name="RtosSettings">
     <option name="rtosEnabled" value="true" />
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="Database_Server" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Database_Server" RUN_TARGET_NAME="Database_Server" EXPLICIT_BUILD_TARGET_NAME="all">
+  <component name="RunManager" selected="Docker.Dockerfile">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Database_Server" type="CMakeRunConfiguration" factoryName="Application" temporary="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Database_Server" TARGET_NAME="Database_Server" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Database_Server" RUN_TARGET_NAME="Database_Server">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -164,7 +156,7 @@
     <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
       <deployment type="dockerfile">
         <settings>
-          <option name="imageTag" value="blue" />
+          <option name="imageTag" value="gcc" />
           <option name="buildOnly" value="true" />
           <option name="containerName" value="Sever_Cpp" />
           <option name="sourceFilePath" value="Dockerfile" />
@@ -186,9 +178,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="CMake Application.Database_Server" />
         <item itemvalue="Python.test" />
+        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
   </component>
@@ -229,7 +222,11 @@
       <workItem from="1695568758451" duration="3583000" />
       <workItem from="1695573983046" duration="386000" />
       <workItem from="1695620305205" duration="26000" />
-      <workItem from="1695627825898" duration="875000" />
+      <workItem from="1695627825898" duration="992000" />
+      <workItem from="1695745496173" duration="742000" />
+      <workItem from="1695746760181" duration="741000" />
+      <workItem from="1695813104783" duration="362000" />
+      <workItem from="1695814191548" duration="675000" />
     </task>
     <task id="LOCAL-00001" summary="Update">
       <option name="closed" value="true" />
@@ -239,7 +236,23 @@
       <option name="project" value="LOCAL" />
       <updated>1694797105383</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Update">
+      <option name="closed" value="true" />
+      <created>1695628733940</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1695628733940</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Update">
+      <option name="closed" value="true" />
+      <created>1695628742423</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1695628742423</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

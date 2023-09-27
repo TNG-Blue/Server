@@ -11,5 +11,8 @@
   }, {
     "name" : "sqlite3",
     "version>=" : "3.42.0#1"
+  }, {
+    "name" : "cpprestsdk",
+    "version>=" : "2.10.18#3"
   } ]
 }
