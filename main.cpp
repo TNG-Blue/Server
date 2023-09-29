@@ -402,7 +402,7 @@ int main() {
     std::thread serverThread([&server]() { server.start(); });
 
     const char* testScriptPath = "F:/Source/C++/Database_Server/test.py";
-    const char* mainScriptPath = "F:/Source/C++/Database_Server/main.py";
+    const char* mainScriptPath = "F:/Source/C++/Database_Server/api.py";
 
     std::thread testThread(runPythonScript, testScriptPath);
     std::thread mainThread(runPythonScript, mainScriptPath);

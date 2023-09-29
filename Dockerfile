@@ -1,4 +1,4 @@
-FROM gcc:latest AS cpp-build
+FROM gcc:latest
 
 WORKDIR /app
 
@@ -12,8 +12,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN g++ -o main main.cpp -lboost_system -lpthread -lsqlite3
 
-
-RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 12345
 

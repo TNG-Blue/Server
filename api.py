@@ -12,14 +12,12 @@ local_storage = threading.local()
 
 
 def get_db_connection():
-    """Get a thread-local SQLite connection."""
     if not hasattr(local_storage, 'conn'):
         local_storage.conn = sqlite3.connect('F:/Source/C++/Database_Server/cmake-build-debug/lora.db')
     return local_storage.conn
 
 
 def get_db_cursor():
-    """Get a thread-local SQLite cursor."""
     conn = get_db_connection()
     if not hasattr(local_storage, 'cursor'):
         local_storage.cursor = conn.cursor()
