@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPu
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer
 import os
 
-esp32_ip = "192.168.130.82"  # Địa chỉ IP của ESP32
+esp32_ip = "192.168.114.8"  # Địa chỉ IP của ESP32
 esp32_port = 80  # Cổng của ESP32
 
 device_id = None
@@ -70,7 +70,6 @@ class ESP32Control(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         self.layout = QVBoxLayout()
-        self.command_label = QLabel("Command Label Text")
         self.layout.addWidget(self.label)
 
         self.command_label = QLabel("")
@@ -86,8 +85,7 @@ class ESP32Control(QMainWindow):
 
     def check_for_data_changes(self):
         for device_id, db_watcher in self.db_watchers.items():
-            if not db_watcher.isRunning():
-                db_watcher.start()
+            db_watcher.start()
 
     def handle_data_changed(self, data):
         global device_id

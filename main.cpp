@@ -395,14 +395,14 @@ void runPythonScript(const char* scriptPath) {
 }
 
 int main() {
-    std::string server_ip = "192.168.25.240";
+    const char* testScriptPath = "F:/Source/C++/Database_Server/test.py";
+    const char* mainScriptPath = "F:/Source/C++/Database_Server/api.py";
+
+    std::string server_ip = "192.168.172.152";
     unsigned short server_port = 12345;
 
     LoRaServer server(server_ip, server_port);
     std::thread serverThread([&server]() { server.start(); });
-
-    const char* testScriptPath = "F:/Source/C++/Database_Server/test.py";
-    const char* mainScriptPath = "F:/Source/C++/Database_Server/api.py";
 
     std::thread testThread(runPythonScript, testScriptPath);
     std::thread mainThread(runPythonScript, mainScriptPath);

@@ -1,3 +1,5 @@
+flask
+pyqt6
 pip
 wheel
 PyQt6

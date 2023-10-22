@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN apt-get update && apt-get install -y apt-utils
+
 RUN apt-get update && apt-get install -y \
     g++ \
     libboost-system-dev \
@@ -12,8 +14,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN g++ -o main main.cpp -lboost_system -lpthread -lsqlite3
 
-
 EXPOSE 12345
 
 CMD ["./main"]
-

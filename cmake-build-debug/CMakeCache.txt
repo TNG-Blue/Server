@@ -265,26 +265,11 @@ PYTHON_INCLUDE_DIR:PATH=F:/Python/include
 //Path to a library.
 PYTHON_LIBRARY:FILEPATH=F:/Python/libs/python311.lib
 
-//The directory containing a CMake configuration file for Qt5Core.
-Qt5Core_DIR:PATH=F:/Anaconda/Library/lib/cmake/Qt5Core
-
-//The directory containing a CMake configuration file for Qt5Gui.
-Qt5Gui_DIR:PATH=F:/Anaconda/Library/lib/cmake/Qt5Gui
-
-//The directory containing a CMake configuration file for Qt5Sql.
-Qt5Sql_DIR:PATH=F:/Anaconda/Library/lib/cmake/Qt5Sql
-
-//The directory containing a CMake configuration file for Qt5Widgets.
-Qt5Widgets_DIR:PATH=F:/Anaconda/Library/lib/cmake/Qt5Widgets
-
-//The directory containing a CMake configuration file for Qt5.
-Qt5_DIR:PATH=F:/Anaconda/Library/lib/cmake/Qt5
-
 //Path to a file.
-SQLite3_INCLUDE_DIR:PATH=F:/Anaconda/Library/include
+SQLite3_INCLUDE_DIR:PATH=C:/msys64/mingw64/include
 
 //Path to a library.
-SQLite3_LIBRARY:FILEPATH=F:/Anaconda/Library/lib/sqlite3.lib
+SQLite3_LIBRARY:FILEPATH=C:/msys64/mingw64/lib/libsqlite3.dll.a
 
 //The directory containing a CMake configuration file for boost_headers.
 boost_headers_DIR:PATH=C:/msys64/mingw64/lib/cmake/boost_headers-1.81.0
@@ -454,9 +439,9 @@ CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
 FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[C:/msys64/mingw64/lib/cmake/Boost-1.81.0/BoostConfig.cmake][cfound components: system ][v1.81.0()]
 //Details about finding PythonLibs
-FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[optimized;F:/Python/libs/python311.lib;debug;F:/Python/libs/python311_d.lib][F:/Python/include][v3.11.4()]
+FIND_PACKAGE_MESSAGE_DETAILS_PythonLibs:INTERNAL=[optimized;F:/Python/libs/python311.lib;debug;F:/Python/libs/python311_d.lib][F:/Python/include][v3.11.0()]
 //Details about finding SQLite3
-FIND_PACKAGE_MESSAGE_DETAILS_SQLite3:INTERNAL=[F:/Anaconda/Library/include][F:/Anaconda/Library/lib/sqlite3.lib][v3.41.2()]
+FIND_PACKAGE_MESSAGE_DETAILS_SQLite3:INTERNAL=[C:/msys64/mingw64/include][C:/msys64/mingw64/lib/libsqlite3.dll.a][v3.41.2()]
 //ADVANCED property for variable: PYTHON_DEBUG_LIBRARY
 PYTHON_DEBUG_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PYTHON_INCLUDE_DIR
